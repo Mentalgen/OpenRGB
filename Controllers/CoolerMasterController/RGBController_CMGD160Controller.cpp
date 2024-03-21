@@ -1,9 +1,9 @@
 /*-------------------------------------------------------------------*\
-|  RGBController_CMGD160Controller.cpp                              |
+|  RGBController_CMGD160Controller.cpp                                |
 |                                                                     |
-|  Driver for Coolermaster Gaming Monitor USB Controller              |
+|  Driver for Coolermaster GD160 Desk                                 |
 |                                                                     |
-|  morg (Morgan Guimard) 9/18/2023                                    |
+|  Eclipse (Logan Phillips)                                           |
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
@@ -12,18 +12,18 @@
 #include <thread>
 #include <chrono>
 
-/**------------------------------------------------------------------*\
-    @name Coolermaster GD160 Desk
-    @category LEDStrip
-    @type USB
-    @save :robot:
-    @direct :white_check_mark:
-    @effects :white_check_mark:
-    @detectors DetectCoolerMasterDesk
-    @comment
+/*-------------------------------------------------------------------*\
+    @name Coolermaster GD160 Desk                                     |
+    @category LEDStrip                                                |
+    @type USB                                                         |
+    @save :robot:                                                     |
+    @direct :white_check_mark:                                        |
+    @effects :white_check_mark:                                       |
+    @detectors DetectCoolerMasterDesk                                 |
+    @comment                                                          |
 \*-------------------------------------------------------------------*/
 
-RGBController_CMGD160Controller::RGBController_CMGD160Controller(CMMonitorController* controller_ptr)
+RGBController_CMGD160Controller::RGBController_CMGD160Controller(CMGD160Controller* controller_ptr)
 {
     controller                  = controller_ptr;
     name                        = "CoolerMaster LED Controller A1";
@@ -147,16 +147,16 @@ void RGBController_CMGD160Controller::SetupZones()
 {
     zone z;
 
-    z.name          = "Monitor";
+    z.name          = "Front Desk";
     z.type          = ZONE_TYPE_LINEAR;
-    z.leds_min      = 47;
-    z.leds_max      = 47;
-    z.leds_count    = 47;
+    z.leds_min      = 96;
+    z.leds_max      = 96;
+    z.leds_count    = 96;
     z.matrix_map    = NULL;
 
     zones.push_back(z);
 
-    for(unsigned int i = 0; i < 47; i++)
+    for(unsigned int i = 0; i < 96; i++)
     {
         led l;
         l.name          = std::to_string(i + 1);

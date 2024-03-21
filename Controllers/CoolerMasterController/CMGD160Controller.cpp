@@ -1,9 +1,9 @@
 /*-------------------------------------------------------------------*\
 |  CMGD160Controller.cpp                                              |
 |                                                                     |
-|  Driver for Coolermaster Gaming Desk                             |
+|  Driver for Coolermaster GD160 Desk                                 |
 |                                                                     |
-|  Eclipse TBD                                                        |
+|  Eclipse (Logan Phillips)                                           |
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
@@ -59,7 +59,7 @@ void CMGD160Controller::SetMode(uint8_t mode_value, const RGBColor& color, uint8
     usb_buf[1]  = 0x80;
     usb_buf[2]  = (mode_value == CM_GD160_OFF_MODE) ? 0x0F : 0x0B;
     usb_buf[3]  = 0x02;
-    usb_buf[4]  = 0x02;
+    usb_buf[4]  = 0x01;
     usb_buf[5]  = mode_value;
     usb_buf[6]  = (mode_value == CM_GD160_OFF_MODE) ? 0x00 : 0x08;
     usb_buf[7]  = speed;
@@ -84,7 +84,7 @@ void CMGD160Controller::SetCustomMode(const std::vector<RGBColor>& colors, uint8
     uint8_t color_data[CM_GD160_COLOR_DATA_LENGTH];
     memset(color_data, 0x00, CM_GD160_COLOR_DATA_LENGTH);
 
-    uint8_t offset = 0;
+    uint16_t offset = 0;
 
     for(const RGBColor& color: colors)
     {
@@ -94,7 +94,7 @@ void CMGD160Controller::SetCustomMode(const std::vector<RGBColor>& colors, uint8
     }
 
     /*---------------------------------------------------------*\
-    | Sends the 7 sequence packets                              |
+    | Sends 2 sets the 7 sequence packets,                      |
     \*---------------------------------------------------------*/
     uint8_t usb_buf[CM_GD160_PACKET_LENGTH];
 
@@ -113,7 +113,7 @@ void CMGD160Controller::SetCustomMode(const std::vector<RGBColor>& colors, uint8
         {
             usb_buf[2] = 0x10;
             usb_buf[3] = 0x02;
-            usb_buf[4] = 0x01;
+            usb_buf[4] = 0x01; //Notates front part of desk
             usb_buf[5] = 0x80;
             usb_buf[6] = brightnesss;
 
@@ -195,7 +195,7 @@ void CMGD160Controller::SetSoftwareModeEnabled(bool value)
     usb_buf[1]  = 0x80;
     usb_buf[2]  = 0x0b;
     usb_buf[3]  = 0x02;
-    usb_buf[4]  = 0x02;
+    usb_buf[4]  = 0x01;
     usb_buf[6]  = value;
 
     hid_write(dev, usb_buf, CM_GD160_PACKET_LENGTH);
