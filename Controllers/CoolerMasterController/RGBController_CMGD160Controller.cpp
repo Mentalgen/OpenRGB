@@ -26,7 +26,7 @@
 RGBController_CMGD160Controller::RGBController_CMGD160Controller(CMGD160Controller* controller_ptr)
 {
     controller                  = controller_ptr;
-    name                        = "CoolerMaster LED Controller A1";
+    name                        = "CoolerMaster GD160ARGB";
     vendor                      = "CoolerMaster";
     type                        = DEVICE_TYPE_LEDSTRIP;
     description                 = name;

@@ -48,32 +48,34 @@ std::string CMGD160Controller::GetSerialString()
   return (serial_number);
 }
 
-void CMGD160Controller::SetMode(uint8_t mode_value, const RGBColor & color, uint8_t speed, uint8_t brightness)
+void CMGD160Controller::SetMode(uint8_t mode_value, const RGBColor& color, uint8_t speed, uint8_t brightness)
 {
   if (software_mode_enabled)
   {
     SetSoftwareModeEnabled(false);
   }
 
-  uint8_t usb_buf[CM_GD160_PACKET_LENGTH];
-  memset(usb_buf, 0x00, CM_GD160_PACKET_LENGTH);
+  for (unsigned int i = 0; i < 2; i++)
+  {
+    uint8_t usb_buf[CM_GD160_PACKET_LENGTH];
+    memset(usb_buf, 0x00, CM_GD160_PACKET_LENGTH);
 
-  usb_buf[1]  = 0x80;
-  usb_buf[2]  = (mode_value == CM_GD160_OFF_MODE) ? 0x0F : 0x0B;
-  usb_buf[3]  = 0x02;
-  usb_buf[4]  = 0x01;
-  usb_buf[5]  = mode_value;
-  usb_buf[6]  = (mode_value == CM_GD160_OFF_MODE) ? 0x00 : 0x08;
-  usb_buf[7]  = speed;
-  usb_buf[8]  = brightness;
-  usb_buf[9]  = RGBGetRValue(color);
-  usb_buf[10] = RGBGetGValue(color);
-  usb_buf[11] = RGBGetBValue(color);
+    usb_buf[1]  = 0x80;
+    usb_buf[2]  = (mode_value == CM_GD160_OFF_MODE) ? 0x0F : 0x0B;
+    usb_buf[3]  = 0x02;
+    usb_buf[4]  = (i == 0) ? 0x01 : 0x02; //Sets both sides of desk to a specified mode
+    usb_buf[5]  = mode_value;
+    usb_buf[6]  = (mode_value == CM_GD160_OFF_MODE) ? 0x00 : 0x08;
+    usb_buf[7]  = speed;
+    usb_buf[8]  = brightness;
+    usb_buf[9]  = RGBGetRValue(color);
+    usb_buf[10] = RGBGetGValue(color);
+    usb_buf[11] = RGBGetBValue(color);
 
-  hid_write(dev, usb_buf, CM_GD160_PACKET_LENGTH);
+    hid_write(dev, usb_buf, CM_GD160_PACKET_LENGTH);
+  }
 }
-
-void CMGD160Controller::SetCustomMode(const std::vector < RGBColor > & colors, uint8_t brightnesss)
+void CMGD160Controller::SetCustomMode(const std::vector <RGBColor>& colors, uint8_t brightnesss)
 {
   if (software_mode_enabled)
   {
@@ -95,11 +97,11 @@ void CMGD160Controller::SetCustomMode(const std::vector < RGBColor > & colors, u
   }
 
   /*---------------------------------------------------------*\
-  | Sends 2 sets the 7 sequence packets,                      |
+  | Sends 2 sets of 7 sequence packets,                      |
   \*---------------------------------------------------------*/
 
   //It doesn't even need the last 2 packets, why does it need them??
-  //There's 41 bytes of color in packet 5 and the 6th and 7th is just trash bytes
+  //There's 41 bytes of color data in packet 5 and the 6th and 7th is just essentially trash bytes
 
   uint8_t usb_buf[CM_GD160_PACKET_LENGTH];
 
