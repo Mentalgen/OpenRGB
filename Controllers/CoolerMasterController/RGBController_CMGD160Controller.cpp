@@ -13,14 +13,14 @@
 #include <chrono>
 
 /*-------------------------------------------------------------------*\
-    @name Coolermaster GD160 Desk                                     |
-    @category LEDStrip                                                |
-    @type USB                                                         |
-    @save :robot:                                                     |
-    @direct :white_check_mark:                                        |
-    @effects :white_check_mark:                                       |
-    @detectors DetectCoolerMasterDesk                                 |
-    @comment                                                          |
+    @name Coolermaster GD160 Desk
+    @category LEDStrip
+    @type USB
+    @save :robot:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectCoolerMasterDesk
+    @comment
 \*-------------------------------------------------------------------*/
 
 RGBController_CMGD160Controller::RGBController_CMGD160Controller(CMGD160Controller* controller_ptr)
@@ -155,6 +155,25 @@ void RGBController_CMGD160Controller::SetupZones()
     z.matrix_map    = NULL;
 
     zones.push_back(z);
+
+    for(unsigned int i = 0; i < 96; i++)
+    {
+        led l;
+        l.name          = std::to_string(i + 1);
+        l.value         = i;
+        leds.push_back(l);
+    }
+
+    zone x;
+
+    x.name          = "Back Desk";
+    x.type          = ZONE_TYPE_LINEAR;
+    x.leds_min      = 96;
+    x.leds_max      = 96;
+    x.leds_count    = 96;
+    x.matrix_map    = NULL;
+
+    zones.push_back(x);
 
     for(unsigned int i = 0; i < 96; i++)
     {

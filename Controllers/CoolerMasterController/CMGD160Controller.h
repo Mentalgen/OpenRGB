@@ -14,7 +14,7 @@
 #pragma once
 
 #define CM_GD160_PACKET_LENGTH     65
-#define CM_GD160_COLOR_DATA_LENGTH 289
+#define CM_GD160_COLOR_DATA_LENGTH 577
 
 enum
 {
