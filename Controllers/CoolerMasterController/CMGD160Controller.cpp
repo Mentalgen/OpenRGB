@@ -213,7 +213,7 @@ void CMGD160Controller::SetSoftwareModeEnabled(bool value)
   memset(usb_buf, 0x00, CM_GD160_PACKET_LENGTH);
 
   usb_buf[1] = 0x80;
-  usb_buf[2] = 0x0b;
+  usb_buf[2] = 0x0B;
   usb_buf[3] = 0x02;
   usb_buf[4] = 0x01;
   usb_buf[6] = value;
